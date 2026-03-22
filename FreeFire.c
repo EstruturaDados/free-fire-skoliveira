@@ -110,7 +110,7 @@ void exibirMenu(Mochila *mochila) {
     printf("\n1. Adicionar Item (Loot)");
     printf("\n2. Remover Item");
     printf("\n3. Listar Itens na Mochila");
-    printf("\n4. Buscar Item");
+    printf("\n4. Buscar Item por Nome");
     printf("\n0. Sair");
     printf("\n----------------------------------");
 }
@@ -187,7 +187,8 @@ void buscarItem(Mochila *mochila) {
 
     char nome[MAX_STR_LEN_NOME];
 
-    printf("\nBuscar item: ");
+    printf("\n--- Buscar Item na Mochila ---");
+    printf("\nDigite o nome do item que deseja buscar: ");
     fgets(nome, MAX_STR_LEN_NOME, stdin);
     nome[strcspn(nome, "\n")] = '\0';
 
@@ -198,19 +199,24 @@ void buscarItem(Mochila *mochila) {
             break;
         }
     }
-
-    printf("\n--- %s ---", nome);
-    printf("\nTipo: %s", mochila->itens[indice].tipo);
-    printf("\nQuantidade: %d\n", mochila->itens[indice].quantidade);
-
+    
     // Se não encontrou, encerra
     if (indice == -1) {
-        printf("\n\nItem '%s' não encontrado na mochila.\n", nome);
+        printf("\nResultado: Item '%s' NAO foi encontrado na mochila.\n", nome);
+        printf("\nPressione Enter para continuar...");
+        getchar();
+        return;
     }
+
+    // Encontrou
+    printf("\n--- Item Encontrado! ---");
+    printf("\nNome: %s", nome);
+    printf("\nTipo: %s", mochila->itens[indice].tipo);
+    printf("\nQuantidade: %d", mochila->itens[indice].quantidade);
+    printf("\n------------------------\n");
 
     printf("\nPressione Enter para continuar...");
     getchar();
-
 }
 
 // listarItens():
@@ -223,7 +229,7 @@ void listarItens(Mochila *mochila) {
         return;
     }
 
-    printf("\n");
+    printf("\n--- ITENS NA MOCHILA (%d/%d) ---", mochila->quantidade, MAX_ITENS);
     printf("\n--------------------------------------------");
     printf("\nNOME\t\t| TIPO\t\t| QUANTIDADE");
     printf("\n--------------------------------------------");
